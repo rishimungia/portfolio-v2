@@ -1,0 +1,25 @@
+This project features a basic OpenGL renderer that generates realistic terrains from provided heightmap. It includes Blinn-Phong shading for natural lighting, normal map support for enhanced surface detail, and texture mapping based on terrain height for varied appearances like grass, rock, and snow. Additionally, it incorporates billboard vegetation, using 2D images for plants and trees.
+
+## Terrain Displacement Map
+
+The terrain is rendered as a triangle strip. It involves loading a heightmap texture and sending it to the vertex shader, where encoded height value is decoded using shift operations. The calculated height is then used to displace the vertices to render a detailed and realistic terrain mesh.
+
+## Shading
+
+<div className="mdx-col-2">
+    ![Heightmap Mesh](/images/opengl-renderer/heightmap.png)
+
+    ![Normal Map](/images/opengl-renderer/normalmap.png)
+    
+    The renderer employs Phong shading to simulate a global directional light, managed through the fragment shader. This shading technique considers the material's roughness and metallic properties, resulting in realistic lighting effects.
+
+    Surface normals are calculated in the vertex shader using the decoded height map values and are used by the fragment shader for normal mapping when shading.
+</div>
+
+## Billboards
+
+The vegetation is rendered using Billboards which are rendered using a geometry shader which processes the vertex positions to create and position quads for the billboards. It outputs the quads only when the random value condition is met, ensuring billboards appear at random locations. The fragment shader renders the billboards on lower height parts of the terrain, discarding the background from the texture.
+
+## Skybox
+
+Using a vertex shader, the skybox vertices and matrices transform the view to include only rotation, ensuring constant depth. The fragment shader utilizes these transformed coordinates and cubemap textures to render the skybox, creating a seamless background for the scene.

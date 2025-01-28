@@ -1,0 +1,48 @@
+A script mod for Grand Theft Auto V, introducing a ride-hailing system like Uber, allowing players to summon cabs via in-game phone.
+
+Pegasus Cabs is an online cab service rivaling Downtown Cab Co. Offering various tiers of cabs, from economic to luxurious options, Pegasus Cabs is your new go-to for all your transportation needs. To order, simply call the Pegasus Cab contact from your in-game phone and choose your preferred cab type.
+
+## Features
+
+<div className="mdx-col-2">
+![Cab Menu](/images/pegasus-cab/features.png)
+
+- **Cab Types:** Choose from 6 pre-defined cab types, with the option to customize and add more via the `OnlineCabData.xml` file.
+- **Cab Options:** Enjoy features like Rush mode for faster travel, Skip for instant teleportation (for an extra cost), dynamic fare calculation based on distance and the ability to update or cancel your ride mid-trip.
+- **XML Customization:** Customize cab types, vehicle spawns, driver models, fares, and more through XML configuration.
+</div>
+
+## Implementation
+
+- Majority of the logic for the mod was wrtten in C# using the `ScriptHook V` library along with `ScriptHook V.NET` plugin to allow development in C#.
+- The in-game phone contact is added using the `iFruitAddon2` addon script.
+- To create the cab selection menu I used the open-source `LemonUI` library that provides the ability to draw GTA's native menu UIs on screen.
+
+## Build Requirements
+
+- Grand Theft Auto V (PC)
+- ScriptHook V
+- ScriptHook V .NET
+- LemonUI
+- IFruitAddon2
+- Visual Studio Community
+
+## Compiling
+
+1. Open the Solution File:
+
+   - Locate the `.sln` file provided in the project directory and open it in Visual Studio.
+
+2. Add Required Libraries:
+
+   - Place the necessary `.dll` files (ScriptHook V .NET, LemonUI, and iFruitAddon2) into the project's `References`.
+   - Add references to these libraries in the project if they are not already included:\
+     Right-click on the project → `Add Reference...` → Browse to the `.dll` files → Add them.
+
+3. Build the Project:
+
+   - In the Solution Explorer, right-click on the project name and select `Build`.
+
+4. Locate the Compiled Output:
+
+   - Once the build completes, the `.dll` file for the mod will be generated in the `bin\Release` folder of your project directory.

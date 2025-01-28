@@ -1,0 +1,54 @@
+.button {
+    outline: none;
+
+    border: 1px solid hsla(0, 0%, 98%, 0.1);
+    border-radius: 0.75rem;
+
+    padding: 0.5rem 1rem;
+    min-width: 8rem;
+    max-width: max-content;
+
+    background: hsla(0, 0%, 0%, 0.1);
+    box-shadow: 0px 0px 0px hsla(0, 0%, 0%, 0.15);
+
+    position: relative;
+    overflow: hidden;
+
+    isolation: isolate;
+
+    transition: all var(--transition-delay);
+
+    display: flex;
+    align-self: center;
+    justify-content: center;
+    gap: 0.5rem;
+
+    color: var(--text);
+    text-decoration: none;
+    font-weight: 400;
+
+    &:hover {
+        .glow {
+            opacity: 1;
+        }
+
+        background: hsla(240, 6%, 98%, 0.05);
+        border-color: hsla(0, 0%, 100%, 0.1);
+        box-shadow: 0px 1px 8px hsla(0, 0%, 0%, 0.15);
+    }
+}
+
+.glow {
+    position: absolute;
+    inset: 0 0;
+
+    width: 2rem;
+    aspect-ratio: 1;
+
+    background: hsla(0, 0%, 100%, 0.25);
+    filter: blur(1rem);
+
+    opacity: 0;
+
+    transition: opacity var(--transition-delay);
+}

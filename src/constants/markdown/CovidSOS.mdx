@@ -1,0 +1,30 @@
+The idea for this bot originated from the #COVIDSOS trend on Twitter. The goal was to create a bot that can help users find relevant information without going through the hassel of digging through thousands of tweets.
+
+## Auto-reply
+
+The bot can reply to mention tweets on it's timeline. It is configured to automaticly reply to mentions with hashtags like #reply, #COVIDSOS, #covidDM, etc. This module also manages enrollment of users to the Direct Messages feature, it looks for keywords like: '#coviddm start' and initiates the CovidDM module.
+
+## CovidDM
+
+<div className="mdx-col-2">
+    <div>
+        If the user is following the Bot account, they can get any information related to COVID19 directly through their personal messages. The availabe commands for DM module are:
+
+        - `CovidStatus`: Get details of present COVID cases.
+        - `CovidSOS[Location][Requirement]`: Get relevant #COVIDSOS Tweets.
+        - `Stop`: Unenroll from the CovidDM module.
+    </div>
+
+    ![CovidSOS Bot Chat](/images/covid-sos/tweet-bot-a.png)
+</div>
+
+## Terminal Interface
+
+The terminal interface is designed to be user friendly. It also has some audio output for accesibility. It contains commands to control the TweetBot like:
+
+- Custom Tweet
+- Check for unreplied tweets
+- Covid Status - Get details of present COVID cases
+- Search Tweets by hashtag
+- Search Tweets by Username
+- Search for `#COVIDSOS` Tweets
