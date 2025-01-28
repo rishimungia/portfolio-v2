@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
-import "./globals.scss";
 import "./imports.scss";
+import "./globals.scss";
 
 import Navbar from "@/components/Navbar/Navbar";
 import { CursorProvider } from "@/components/Providers/Cursor";
