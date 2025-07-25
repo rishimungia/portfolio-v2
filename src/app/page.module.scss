@@ -1,73 +1,105 @@
 .home {
-  min-height: 100vh;
-  position: relative;
+    min-height: 100vh;
+    position: relative;
 
-  isolation: isolate;
+    isolation: isolate;
 }
 
-.introSection {  
-  height: 100vh;
-  
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+.introSection {
+    height: 100vh;
 
-  position: relative;
-  isolation: isolate;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 
-  z-index: 5;
-  
-  .introName {
-    font-family: var(--hindi-font);
-    font-size: min(50vw, 24rem);
-    line-height: 0.65;
-    text-align: center;
+    position: relative;
+    isolation: isolate;
 
-    color: hsl(240, 7%, 7%);
+    z-index: 5;
 
-    pointer-events: none;
-    user-select: none;
+    .introName {
+        font-family: var(--hindi-font);
+        font-size: min(50vw, 24rem);
+        line-height: 0.65;
+        text-align: center;
 
-    z-index: -1;
-  }
+        color: hsl(240, 7%, 7%);
 
+        pointer-events: none;
+        user-select: none;
+
+        z-index: -1;
+    }
+
+    > button {
+        transform: translateY(10%);
+        opacity: 0;
+        filter: blur(5px);
+
+        animation: fadeInBlur 0.3s 3.3s ease-in-out forwards;
+    }
 }
 
 .tagline {
-  margin-top: max(-3rem, -10vw);
-  max-width: 32rem;
+    margin-top: max(-3rem, -10vw);
+    max-width: 32rem;
 
-  text-align: center;
-  font-size: min(8vw, 2rem);
-  line-height: var(--font-lineheight-1);
+    text-align: center;
+    font-size: min(8vw, 2rem);
+    line-height: var(--font-lineheight-1);
+    font-weight: 300;
 
-  background: repeating-linear-gradient(0deg, var(--primary-600) 0%, #FFF calc(1.25 * min(8vw, 2rem)));
-  background-clip: text;
-  color: transparent;
-  
-  .web {
-    background: radial-gradient(circle at 50% 200%, #0fadfc, #15afde, #0c85ff, #5099ff, #5b8fff, #bd7fff, #e492ff);
-    background-clip: text;
-    color: transparent;
-    filter: drop-shadow(0 0.1rem 0.5rem #9c83ff);
-  }
-  
-  .game {
-    background: var(--gradient-13);
-    background-clip: text;
-    color: transparent;
-    filter: drop-shadow(0 0.1rem 0.5rem #ff7e64);
-  }
+    padding-block: 2.5rem;
+    
+    .word {
+        background: repeating-linear-gradient(
+            0deg,
+            var(--primary-300) 0%,
+            #fff calc(1.25 * min(8vw, 2rem))
+        );
+        background-clip: text;
+        color: transparent;
+        
+        display: inline-block;
+        margin-right: 0.45ch;
+        animation: fadeInBlur 0.3s ease-in-out forwards;
+
+        transform: translateY(10%);
+        opacity: 0;
+        filter: blur(5px);
+    }
+
+    // Add staggered animation-delay to each .word using Sass loop
+    .word {
+        @for $i from 1 through 10 {
+            &:nth-child(#{$i}) {
+                animation-delay: #{2 + ($i - 1) * 0.15}s;
+            }
+        }
+    }
 }
 
 @keyframes bg {
-  0% {
-    opacity: 0;
-    background-position: top center;
-  }
-  100% {
-    opacity: 1;
-    background-position: bottom center;
-  }
+    0% {
+        opacity: 0;
+        background-position: top center;
+    }
+    100% {
+        opacity: 1;
+        background-position: bottom center;
+    }
+}
+
+@keyframes fadeInBlur {
+    0% {
+        transform: translateY(10%);
+        opacity: 0;
+        filter: blur(5px);
+    }
+    100% {
+        transform: translateY(0%);
+        opacity: 1;
+        filter: blur(0);
+    }
 }

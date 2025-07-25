@@ -8,12 +8,13 @@ export default function Button({
     children,
     onClick,
     href,
+    ...props
 }: {
     tag?: "button" | "anchor";
     children?: React.ReactNode;
     onClick?: () => void;
     href?: string;
-}) {
+} & React.HTMLAttributes<HTMLButtonElement | HTMLAnchorElement>) {
     const { position } = useCursor();
     const buttonRef = useRef<HTMLButtonElement | HTMLAnchorElement>(null);
 
@@ -33,7 +34,7 @@ export default function Button({
     const Component = tag === "anchor" ? "a" : "button";
 
     return (
-        <Component onClick={onClick} className={styles.button} href={href} target="_blank" ref={buttonRef as any}>
+        <Component onClick={onClick} className={styles.button} href={href} target="_blank" ref={buttonRef as any} {...props}>
             {children}
             <div 
                 className={styles.glow} 

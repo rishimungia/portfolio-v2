@@ -53,6 +53,8 @@
     user-select: none;
 
     // filter: drop-shadow(0px 4px 2px #000) drop-shadow(4px 0px 2px #000);
+    animation: focus 1s 1s ease-in-out forwards;
+    filter: blur(12px);
 }
 
 .gradient {
@@ -89,15 +91,19 @@
 
 @keyframes focus {
     0% {
-        filter: drop-shadow(0px 4px 2px #000) drop-shadow(4px 0px 2px #000) blur(12px);
+        filter: blur(12px);
+        opacity: 0.3;
     }
     25% {
-        filter: drop-shadow(0px 4px 2px #000) drop-shadow(4px 0px 2px #000) blur(4px);
+        filter: blur(4px);
+        opacity: 0.2;
     }
-    50% {
-        filter: drop-shadow(0px 4px 2px #000) drop-shadow(4px 0px 2px #000) blur(8px);
+    75% {
+        filter: blur(10px);
+        opacity: 0.4;
     }
     100% {
-        filter: drop-shadow(0px 4px 2px #000) drop-shadow(4px 0px 2px #000) blur(0px);
+        filter: blur(0px);
+        opacity: 0.3;
     }
 }

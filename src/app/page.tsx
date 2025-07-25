@@ -1,6 +1,7 @@
 import styles from "./page.module.scss";
 
 import Background from "@/components/Background/Background";
+import Button from "@/components/Button/Button";
 import AboutSection from "@/components/Home/AboutSection/AboutSection";
 import ProjectsSection from "@/components/Home/ProjectsSection/ProjectsSection";
 
@@ -10,10 +11,14 @@ export default function Home() {
             {/* Intro Section */}
             <section className={styles.introSection}>
                 <p className={styles.tagline}>
-                    Crafting interactive worlds through{" "}
-                    <span className={styles.web}>Web</span> and{" "}
-                    <span className={styles.game}>Game</span> development
+                    {("Crafting interactive worlds through web and game development").split(" ").map((word, index) => (
+                        <span key={index} className={styles.word}>
+                            {word}{" "}
+                        </span>
+                    ))}
                 </p>
+
+                <Button>Schedule a Call</Button>
             </section>
 
             <ProjectsSection />
