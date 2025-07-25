@@ -3,7 +3,7 @@ import styles from "./AboutSection.module.scss";
 
 import { PiReadCvLogo, PiEnvelopeSimple } from "react-icons/pi";
 import { MdOutlineFileDownload } from "react-icons/md";
-import { FaLinkedin, FaGithub, FaSass, FaAws, FaUnity, FaFigma } from "react-icons/fa6";
+import { FaLinkedin, FaGithub, FaSass, FaAws, FaUnity, FaFigma, FaXTwitter } from "react-icons/fa6";
 import { RiCss3Fill, RiHtml5Fill, RiJavascriptFill, RiNextjsFill, RiNodejsFill, RiReactjsFill, RiTailwindCssFill, RiGithubFill, RiVercelFill } from "react-icons/ri";
 import { BiLogoTypescript, BiLogoGit, BiLogoCPlusPlus, BiLogoRedux, BiLogoMongodb, BiLogoGraphql, BiLogoVisualStudio } from "react-icons/bi";
 import { SiOpengl, SiVulkan, SiThreedotjs, SiQt, SiAdobecreativecloud, SiJira } from "react-icons/si";
@@ -47,6 +47,10 @@ export default function AboutSection() {
                     <Link href={'#'} className={styles.socialCard}>
                         <FaGithub />
                         <span>/rishimungia</span>
+                    </Link>
+                    <Link href={'#'} className={styles.socialCard}>
+                        <FaXTwitter />
+                        <span>@pixelbit_r</span>
                     </Link>
                 </div>
             </div>

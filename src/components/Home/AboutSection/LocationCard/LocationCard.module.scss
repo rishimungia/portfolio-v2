@@ -1,4 +1,5 @@
 .card {
+    min-width: 100%;
     width: min(26rem, 90vw);
     min-height: 14rem;
 
@@ -58,13 +59,13 @@
     cursor: grab;
 
     width: 100%;
+    max-width: 26rem;
     aspect-ratio: 1;
 
     bottom: -85%;
     left: 50%;
     transform: translateX(-50%);
 
-    background: transparent;
     clip-path: circle(45%);
 
     z-index: -1;

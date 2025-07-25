@@ -27,7 +27,7 @@ export default function LocationCard() {
 
         if (cardRef.current) {
             const card = cardRef.current as HTMLDivElement;
-            const width = card.offsetWidth;
+            const width = Math.min(card.offsetWidth, 26 * 16);
 
             globe = createGlobe(canvasRef.current!, {
                 devicePixelRatio: 2,

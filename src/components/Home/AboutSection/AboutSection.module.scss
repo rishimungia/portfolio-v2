@@ -24,7 +24,23 @@
 
     grid-template-areas:
         "location about"
-        "location socials";
+        "location contact"
+        "socials socials";
+
+    @media screen and (max-width: 1080px) {
+        grid-template-areas:
+            "location about"
+            "contact contact"
+            "socials socials";
+    }
+
+    @media screen and (max-width: 900px) {
+        grid-template-areas:
+            "location"
+            "about"
+            "contact"
+            "socials";
+    }
 }
 
 .aboutCard,
@@ -101,7 +117,7 @@
 
     grid-template-columns: repeat(auto-fit, minmax(min(16rem, 90vw), 1fr));
 
-    grid-area: socials;
+    grid-area: contact;
 }
 
 .contactCard {
@@ -123,6 +139,7 @@
 }
 
 #resume {
+    
     justify-content: space-between;
 
     span {
@@ -135,6 +152,7 @@
         background: transparent;
         padding: 0.75rem;
         margin-block: -0.75rem;
+        margin-right: -0.5rem;
 
         min-width: unset !important;
     }
@@ -142,8 +160,10 @@
 
 .socials {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
     gap: 1.25rem;
+
+    grid-area: socials;
 }
 
 .socialCard {
