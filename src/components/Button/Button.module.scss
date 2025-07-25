@@ -1,6 +1,4 @@
 .button {
-    outline: none;
-
     border: 1px solid hsla(0, 0%, 98%, 0.1);
     border-radius: 0.75rem;
 
@@ -27,7 +25,7 @@
     text-decoration: none;
     font-weight: 400;
 
-    &:hover {
+    &:hover, &:active {
         .glow {
             opacity: 1;
         }

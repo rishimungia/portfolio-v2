@@ -12,7 +12,7 @@ import { parseHexColor } from "@/utils/common";
 
 export default async function Project ({ params }: { params: Promise<{ id: string }> }) {
     const projectId = (await params).id;
-    const project = projectsData.find((project) => project.id === projectId);
+    const project = projectsData.find((project) => project.id === projectId)!;
 
     const projectColor = project ? parseHexColor(project.color) : parseHexColor("#FFF");
     

@@ -1,0 +1,289 @@
+.aboutSection {
+    margin: 0 auto;
+
+    max-width: var(--section-width);
+    min-height: 100vh;
+
+    padding: 5rem 0rem;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4rem;
+
+    h2 {
+        font-weight: 400;
+        font-size: var(--font-size-fluid-3);
+
+        filter: var(--text-glow);
+    }
+}
+
+.grid {
+    display: grid;
+    gap: 1.25rem;
+
+    grid-template-areas:
+        "location about"
+        "location socials";
+}
+
+.aboutCard,
+.contactCard,
+.socialCard {
+    padding: 1.25rem;
+
+    border-radius: 1rem;
+    border: 1px solid hsla(240, 6%, 100%, 0.1);
+
+    backdrop-filter: blur(2rem);
+
+    overflow: hidden;
+
+    isolation: isolate;
+
+    &::before {
+        content: "";
+        position: absolute;
+        inset: 0 0;
+
+        opacity: 0.025;
+        background: var(--noise-5);
+        filter: var(--noise-filter-5);
+        background-size: contain;
+
+        mix-blend-mode: overlay;
+
+        z-index: -1;
+    }
+
+    &::after {
+        content: "";
+        position: absolute;
+        inset: 0 0;
+
+        background: radial-gradient(
+            circle at top center,
+            hsla(240, 6%, 98%, 0.025),
+            hsla(0, 0%, 0%, 0.2) 40%
+        );
+
+        z-index: -2;
+
+        transition: opacity var(--transition-delay);
+    }
+}
+
+.aboutContent {
+    color: transparent;
+
+    --dull-text: hsla(240, 8%, 90%, 0.7);
+    --bright-text: hsla(240, 8%, 95%, 1);
+    background-clip: text;
+    background-image: linear-gradient(
+        90deg,
+        var(--dull-text) 0%,
+        var(--dull-text) 40%,
+        var(--bright-text) 50%,
+        var(--dull-text) 60%,
+        var(--dull-text) 100%
+    );
+    background-size: 300%;
+    background-position: left;
+
+    animation: text-shine 10s infinite ease-in reverse;
+
+    grid-area: about;
+}
+
+.contact {
+    display: grid;
+    gap: 1.25rem;
+
+    grid-template-columns: repeat(auto-fit, minmax(min(16rem, 90vw), 1fr));
+
+    grid-area: socials;
+}
+
+.contactCard {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    font-size: 1rem;
+    color: var(--text);
+
+    a {
+        text-decoration: none;
+        color: var(--text);
+    }
+
+    svg {
+        min-width: 1.25rem;
+    }
+}
+
+#resume {
+    justify-content: space-between;
+
+    span {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    button {
+        background: transparent;
+        padding: 0.5rem;
+        margin-block: -0.5rem;
+
+        min-width: unset !important;
+
+        border-radius: 0.5rem;
+        border: 1px solid hsla(240, 6%, 100%, 0.1);
+    }
+}
+
+.socials {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+}
+
+.socialCard {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    font-size: 1rem;
+    color: var(--text);
+
+    text-decoration: none;
+
+    svg {
+        width: 1.25rem;
+    }
+}
+
+.carouselContainer {
+    display: flex;
+    overflow-x: hidden;
+
+    width: var(--section-width);
+    padding: 1.5rem 0;
+    margin: -2rem 0;
+    position: relative;
+    isolation: isolate;
+
+    &::after {
+        content: "";
+        position: absolute;
+        inset: 0 0;
+
+        background: linear-gradient(
+            to right,
+            var(--primary-600),
+            transparent 50%,
+            var(--primary-600)
+        );
+        z-index: 5;
+        
+        pointer-events: none;
+    }
+
+    &::before {
+        content: "";
+        position: absolute;
+        inset: 0 0;
+
+        pointer-events: none;
+        z-index: 10;
+
+        backdrop-filter: blur(5px);
+
+        mask-image: linear-gradient(to right, #000, transparent 40%, transparent 60%, #000);
+    }
+
+    &:hover > .carousel {
+        animation-play-state: paused;
+    }
+}
+
+.carouselContainer#tools {
+    .carousel {
+        animation-direction: reverse;
+        animation-duration: 20s;
+    }
+}
+
+.carousel {
+    display: flex;
+    align-items: center;
+
+    min-width: max-content;
+    will-change: transform;
+    animation: scrolling 32s linear infinite;
+
+    .tech {
+        position: relative;
+        padding: 0rem 2rem;
+
+        cursor: default;
+
+        svg {
+            width: 3rem;
+            height: 3rem;
+
+            transition: all 0.5s ease-in-out;
+        }
+
+        span {
+            position: absolute;
+            inset: 50% 50%;
+
+            height: min-content;
+            width: fit-content;
+
+            transform: translate(-50%, 0%);
+
+            font-size: 1.25rem;
+            white-space: nowrap;
+
+            opacity: 0;
+            transition: all 0.2s ease-in-out;
+
+            user-select: none;
+
+            z-index: 10;
+        }
+
+        &:hover {
+            span {
+                opacity: 1;
+                transform: translate(-50%, -50%);
+            }
+            svg {
+                filter: blur(14px);
+                opacity: 0.35;
+            }
+        }
+    }
+}
+
+@keyframes text-shine {
+    0% {
+        background-position: left;
+    }
+    100% {
+        background-position: right;
+    }
+}
+
+@keyframes scrolling {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
+}

@@ -1,5 +1,5 @@
 :root {
-    --text: #e3e3e7;
+    --text: hsl(240, 8%, 90%);
 
     --primary-400: #2a2a31;
     --primary-500: #212126;
@@ -18,12 +18,28 @@
     color: var(--text);
 
     font-family: "Outfit", serif;
+
+    img {
+        user-select: none;
+    }
+
+    *::selection {
+        --project-background: rgb(var(--projectColor), 1);
+        --select-background: hsl(0, 0%, 75%);
+
+        background: var(--project-background, var(--select-background));
+        color: #000;
+
+        filter: initial !important;
+    }
 }
 
 // MDX Styles
 .mdx-heading {
     color: var(--text);
     text-decoration: none;
+
+    scroll-margin-top: 5rem;
 
     &::after {
         content: " #";
@@ -52,11 +68,13 @@
     background: rgb(var(--projectColor), 0.025);
 
     border-radius: 1rem;
-    border: 0.1rem solid rgb(var(--projectColor), .25);
-    border-left: 0.5rem solid rgb(var(--projectColor), .5);
+    border: 0.1rem solid rgb(var(--projectColor), 0.25);
+    border-left: 0.5rem solid rgb(var(--projectColor), 0.5);
 
     position: relative;
     overflow: hidden;
+
+    scroll-margin-top: 5rem;
 
     &::before {
         content: "";

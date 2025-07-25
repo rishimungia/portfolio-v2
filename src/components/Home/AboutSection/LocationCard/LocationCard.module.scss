@@ -1,0 +1,71 @@
+.card {
+    width: min(26rem, 90vw);
+    min-height: 14rem;
+
+    border-radius: 1rem;
+    border: 1px solid hsla(240, 6%, 100%, 0.1);
+
+    backdrop-filter: blur(2rem);
+    
+    overflow: hidden;
+
+    isolation: isolate;
+
+    position: relative;
+
+    grid-area: location;
+
+    &::before {
+        content: "";
+        position: absolute;
+        inset: 0 0;
+        
+        opacity: 0.025;
+        background: var(--noise-5);
+        filter: var(--noise-filter-5);
+        background-size: contain;
+
+        mix-blend-mode: overlay;
+
+        z-index: -1;
+    }
+
+    &::after {
+        content: "";
+        position: absolute;
+        inset: 0 0;
+
+        background: radial-gradient(circle at top center, hsla(240, 6%, 98%, 0.025), hsla(0, 0%, 0%, 0.15) 40%);
+
+        z-index: -2;
+
+        transition: opacity var(--transition-delay);
+    }
+}
+
+.location {
+    position: absolute;
+    inset: 1.25rem auto auto 1.25rem;
+
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.globe {
+    position: absolute;
+    
+    cursor: grab;
+
+    width: 100%;
+    aspect-ratio: 1;
+
+    bottom: -85%;
+    left: 50%;
+    transform: translateX(-50%);
+
+    background: transparent;
+    clip-path: circle(45%);
+
+    z-index: -1;
+}

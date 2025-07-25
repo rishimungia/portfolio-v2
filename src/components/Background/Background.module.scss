@@ -51,6 +51,8 @@
 
     pointer-events: none;
     user-select: none;
+
+    // filter: drop-shadow(0px 4px 2px #000) drop-shadow(4px 0px 2px #000);
 }
 
 .gradient {
@@ -82,5 +84,20 @@
     100% {
         opacity: 1;
         transform: translate(0%, 0%);
+    }
+}
+
+@keyframes focus {
+    0% {
+        filter: drop-shadow(0px 4px 2px #000) drop-shadow(4px 0px 2px #000) blur(12px);
+    }
+    25% {
+        filter: drop-shadow(0px 4px 2px #000) drop-shadow(4px 0px 2px #000) blur(4px);
+    }
+    50% {
+        filter: drop-shadow(0px 4px 2px #000) drop-shadow(4px 0px 2px #000) blur(8px);
+    }
+    100% {
+        filter: drop-shadow(0px 4px 2px #000) drop-shadow(4px 0px 2px #000) blur(0px);
     }
 }
