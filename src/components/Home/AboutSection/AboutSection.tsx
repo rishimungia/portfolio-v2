@@ -40,17 +40,17 @@ export default function AboutSection() {
                 </div>
 
                 <div className={styles.socials}>
-                    <Link href={'#'} className={styles.socialCard}>
+                    <Link href={'https://www.linkedin.com/in/rishi-mungia/'} className={styles.socialCard} target="_blank">
                         <FaLinkedin />
                         <span>/in/rishi-mungia</span>
                     </Link>
-                    <Link href={'#'} className={styles.socialCard}>
+                    <Link href={'https://github.com/rishimungia'} className={styles.socialCard} target="_blank">
                         <FaGithub />
                         <span>/rishimungia</span>
                     </Link>
-                    <Link href={'#'} className={styles.socialCard}>
+                    <Link href={'https://x.com/rishimungia'} className={styles.socialCard} target="_blank">
                         <FaXTwitter />
-                        <span>@pixelbit_r</span>
+                        <span>@rishimungia</span>
                     </Link>
                 </div>
             </div>

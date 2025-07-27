@@ -7,8 +7,8 @@ export default function Navbar() {
             <Link href={'/'} className={styles.logo}>RM</Link>
 
             <div className={styles.navbarLinks}>
-                <Link href="#">Projects</Link>
-                <Link href="#">Resume</Link>
+                <Link href="#projects">Projects</Link>
+                <Link href="#">Résumé</Link>
             </div>
         </nav>
     )

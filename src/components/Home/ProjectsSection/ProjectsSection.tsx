@@ -5,7 +5,7 @@ import Button from "@/components/Button/Button";
 
 export default function ProjectsSection () {
     return (
-        <section className={styles.projectSection}>
+        <section className={styles.projectSection} id="projects">
             <h2>Projects</h2>
             <p>Co-authored with exuberant amounts of ☕.</p>
 

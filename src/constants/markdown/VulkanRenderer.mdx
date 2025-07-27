@@ -1,0 +1,221 @@
+This project demonstrates a comprehensive Vulkan-based rendering engine. The renderer showcases modern graphics programming techniques including physically-based rendering, advanced lighting models, post-processing effects, and shadow mapping. Built from the ground up using the Vulkan API, it provides low-level control over GPU resources while implementing industry-standard rendering features.
+
+## Part 0: Vulkan Setup Architecture
+The Vulkan initialization follows a structured approach to establish the rendering foundation:
+
+### Window and Instance Creation
+The setup begins with initializing `Volk` and `GLFW`, enabling required extensions for Vulkan-GLFW integration. In debug builds, validation layers and debug extensions are automatically enabled. The Vulkan instance is created with proper extension support and debug utilities configured for development.
+<div className="mdx-code-block">
+    ```cpp
+    // Create Vulkan Window
+    auto window = lut::make_vulkan_window();
+
+    // Create GLFW Window and the Vulkan surface
+    glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
+    ```
+</div>
+
+### Device Selection and Logical Device Creation
+Physical devices are enumerated and scored based on comprehensive criteria including Vulkan 1.1 API support, swapchain extension availability, surface presentation capability, and graphics queue support. Discrete GPUs are prioritized over integrated solutions to ensure optimal performance.
+
+### Swapchain Configuration
+The swapchain setup involves careful selection of surface formats (preferring RGBA 8-bit SRGB), present modes (FIFO for v-sync or FIFO_RELAXED for reduced stutter), and optimal image counts. Swap extents are calculated based on framebuffer dimensions with proper clamping to surface capabilities.
+
+### Render Pass and Pipeline Setup
+A comprehensive render pass is established with color and depth attachments, subpass dependencies, and proper synchronization. The graphics pipeline includes descriptor set layouts for scene uniforms and object textures, with vertex input bindings configured for mesh data.
+
+## Part 1: Core Infrastructure and 3D Scene Rendering
+
+### Vulkan Foundation
+The initial implementation establishes the complete Vulkan rendering infrastructure. This includes creating the Vulkan instance with validation layer support, selecting optimal physical devices, and configuring logical devices with required extensions. The swapchain implementation handles surface format selection, present mode configuration, and dynamic resize capabilities.
+
+### 3D Scene Architecture
+The renderer supports complex 3D scenes through a robust mesh system. Model data is loaded using Wavefront OBJ parsing, with each mesh stored in a `TexturedMesh` structure containing vertex positions, texture coordinates, and diffuse values. Buffer management ensures efficient GPU memory utilization with separate buffers for different vertex attributes.
+
+<div className="mdx-code-block">
+    ```cpp
+    struct TexturedMesh
+    {
+        labutils::Buffer positions;
+        labutils::Buffer texcoords;
+        labutils::Buffer diffuse;
+        std::uint32_t vertexCount;
+        std::string texturePath;
+    };
+    ``` 
+</div>
+
+### Shader Pipeline
+The vertex shader transforms vertices using projection and view matrices while passing texture coordinates and diffuse values to the fragment shader. The fragment shader handles both textured and untextured materials, outputting appropriate color values based on material properties.
+
+### Anisotropic Filtering
+Advanced texture filtering is implemented through anisotropic sampling support. The renderer queries device capabilities for anisotropic filtering and enables it when supported, significantly improving texture quality at oblique viewing angles.
+
+<div className="mdx-code-block">
+    ```cpp
+    // Check that the device supports Anisotropic Filtering
+    VkPhysicalDeviceFeatures supportedFeatures;
+    vkGetPhysicalDeviceFeatures(aPhysicalDev, &supportedFeatures);
+    
+    // enable anisotripic filtering if suppotred
+    VkPhysicalDeviceFeatures deviceFeatures{};
+    deviceFeatures.samplerAnisotropy = supportedFeatures.samplerAnisotropy;
+    ```
+</div>
+
+<div className="mdx-col-2">
+    ![Anisotropic Filtering Off](/images/vulkan-renderer/aniso-off.png)
+
+    ![Anisotropic Filtering On](/images/vulkan-renderer/aniso-on.png)
+</div>
+
+### Visualization Tools
+Comprehensive debugging and analysis tools provide insights into rendering behavior. Mipmap level visualization uses color-coded heatmaps to show texture sampling patterns. Fragment depth visualization displays depth buffer contents with proper scaling for visibility. Partial derivative visualization shows depth gradient information for understanding surface complexity.
+
+#### A. Mipmap Level Visualization
+To visualize the different mipmap levels we need to modify the original fragment shader. First, we get the mipmap level that was used to sample form the texture using `textureQueryLod(uTexColor, v2fTexCoord).x`. Then we define the different heatmap colors that will represent the nearest mipmap level (yellow) to the farthest mipmap level (purple). Finally we calculate the fragment color by interpolating the heatmap color values with respect to the mipmap levels. 
+
+![](/images/vulkan-renderer/mipmap.png)
+
+#### B. Fragment Depth Visualization
+To visualize Fragment depth we again modify the original fragment shader. First, we get the fragment depth value and scale it for better visibility and output it as the fragment color.
+
+<div className="mdx-code-block">
+    ```glsl
+    float depth = (gl_FragCoord.z / gl_FragCoord.w); 
+    ```
+</div>
+
+<div className="mdx-col-2">
+    ![Fragment Depth Visualization](/images/vulkan-renderer/frag.png)
+
+    ![Partial Derivative Visualization](/images/vulkan-renderer/partial-derivative.png)
+</div>
+
+#### C. Partial Derivative of the Per-Fragment Depth
+For this we use the depth value calculated previously and calculated partial derivatives and finally output the fragment color with the red channel equal to ddxDepth and green channel equal to ddyDepth. 
+
+<div className="mdx-code-block">
+    ```glsl
+    // per fragment partial derivative 
+    float ddxDepth = dFdx(depth) * 10; // scaled for better visibility 
+    float ddyDepth = dFdy(depth) * 10;
+    ```
+</div>
+
+#### D. Mesh Density Analysis
+A geometry shader calculates triangle areas to visualize mesh density across surfaces. This analysis tool uses inverse area relationships to identify regions of high and low polygon density, helping optimize mesh topology and detect unnecessary geometry complexity. The Viridis color palette provides intuitive density mapping from high-density yellow to low-density purple.
+
+![The smiley face represents unnecessarily high polygon density](/images/vulkan-renderer/mesh-density.png)
+
+## Part 2: Physically-Based Rendering
+
+### Advanced Lighting Model
+The renderer implements a complete physically-based rendering (PBR) system using the Cook-Torrance BRDF model. This includes proper implementation of the Fresnel term for metallic material visualization, Beckmann distribution for specular reflection calculations, and Cook-Torrance masking functions for geometric shadowing effects.
+
+### Material System
+A comprehensive material system supports diffuse, roughness, and metalness textures through a three-binding descriptor set layout. The system properly handles different material types with appropriate texture sampling and combines albedo, roughness, and metallic properties for realistic surface appearance.
+
+<div className="mdx-code-block">
+    ```glsl
+    layout( set = 1, binding = 0 ) uniform sampler2D uDiffuseTex;
+    layout( set = 1, binding = 1 ) uniform sampler2D uRoughTex;
+    layout( set = 1, binding = 2 ) uniform sampler2D uMetalTex;
+    ```
+</div>
+
+![Final PBR Scene](/images/vulkan-renderer/pbr-final.png)
+
+### World Space Shading
+Lighting calculations are performed in world space for consistency and accuracy. Scene uniforms include properly aligned camera and light positions following `std140` layout requirements, ensuring correct GPU memory alignment and optimal performance.
+
+<div className="mdx-code-block">
+    ```cpp
+    struct SceneUniform {
+        glm::mat4 camera;
+        glm::mat4 projection;
+        glm::mat4 projCam;
+        glm::vec3 cameraPos;
+        float _padding0;
+        glm::vec3 lightPos = glm::vec3(-0.2972f, 7.3100f, -11.9532f);
+        float _padding1;
+        glm::vec3 lightColor = glm::vec3(1, 1, 1);
+    };
+    ```
+</div>
+
+<div className="mdx-col-2">
+    ![Fresnel Term: Metallic Materials](/images/vulkan-renderer/fresnel-metallic.png)
+
+    ![Beckmann Distribution: Specular Reflection ](/images/vulkan-renderer/beckmann-distribution.png)
+
+    ![Cook-Torrance Masking: Shadowing Effects](/images/vulkan-renderer/cook-torrance.png)
+
+    ![Specular Term: Reflection](/images/vulkan-renderer/specular-term.png)
+</div>
+
+### Transparency Handling
+Alpha masking is implemented through a dedicated rendering pipeline with alpha blending enabled and since the foliage is two-sided we set the rasterization cull mode to `VK_CULL_MODE_NONE`. This allows for realistic rendering of foliage, fabric, and other materials requiring transparency effects while maintaining proper depth sorting and blending operations.
+
+<div className="mdx-code-block">
+    ```glsl
+    // alpha masking
+	if (texture( uDiffuseTex, v2fTexCoord ).a <= 0.5)
+        discard;
+	else {
+        oColor = pow( texture( uDiffuseTex, v2fTexCoord ), vec4(2.2f) );
+        oBrightColor = vec4(vec3(0), 1.f);
+	}
+    ```
+</div>
+
+<div className="mdx-col-2">
+    ![Alpha Masking Off](/images/vulkan-renderer/alpha-off.png)
+
+    ![Alpha Masking On](/images/vulkan-renderer/alpha-on.png)
+</div>
+
+## Part 3: Advanced Rendering Effects
+
+### Render-to-Texture Framework
+A sophisticated multi-pass rendering system enables advanced post-processing effects. The framework uses `R16G16B16A16_SFLOAT` format for HDR intermediate textures, supporting high dynamic range throughout the rendering pipeline. Synchronization is managed through `VkSemaphores` for swapchain operations and `VkFences` for render pass coordination.
+
+### HDR and Tone Mapping
+High dynamic range rendering preserves lighting information throughout the pipeline, with tone mapping applied in the final post-processing stage. This approach maintains color accuracy in high-intensity areas while providing natural-looking final output with improved contrast and color reproduction.
+
+<div className="mdx-col-2">
+    ![Tone Mapping Off](/images/vulkan-renderer/tone-mapping-off.png)
+
+    ![Tone Mapping On](/images/vulkan-renderer/tone-mapping-on.png)
+</div>
+
+### Bloom Post-Processing
+To implement bloom, we create two render passes, one for horizontal and one for vertical. Similarly, we create two pipelines for which we can used `VkSpecializationInfo` to set the bloom blur direction. The `constant_id` is then used in the fragment shader when calculating gaussian blur. 
+<br/>
+First, we render the scene with the emissive textures, then from the final fragment color bright regions (color value > 1.0f) are extracted as a separate HDR texture. Finally, the bright color texture is used twice in the bloom render passes (horizontal and vertical) and gaussian blur is applied. For gaussian blur weights I used the equations given [here](https://www.rastergrid.com/blog/2010/09/efficient-gaussian-blur-with-linear-sampling/) and calculated the values using Matlab Online and verified the values from [here](https://lisyarus.github.io/blog/posts/blur-coefficients-generator.html). The weight and offset values are hardcoded in the fragment shader.
+<br/>
+The bright image is sent to horizontal bloom pass image as descriptor to after horizontal blur is applied the image is then sent to vertical bloom pass and then the final image is sent to the post process pipeline along with the scene render texture as descriptors. 
+
+![Bloom Effect](/images/vulkan-renderer/bloom.png)
+
+### Shadow Mapping
+Real-time shadow mapping is implemented using a dedicated depth-only render pass with `D32_SFLOAT` format. The system supports configurable shadow resolution and includes percentage-closer filtering (PCF) for soft shadow edges. Light projection matrices use perspective projection with carefully tuned bias values to prevent shadow acne and Peter Panning artifacts.
+
+<div className="mdx-code-block">
+    ```cpp
+    glm::mat4 lightView = glm::lookAt(aState.lightPos, aState.lightPos + glm::vec3(0, 0, -1), glm::vec3(0.0f, 1.0f, 0.0f));
+    glm::mat4 lightProj = glm::perspectiveRH_ZO(lut::Radians(cfg::kCameraFov).value(), 1.0f, cfg::kCameraNear, cfg::kCameraFar);
+    aLightUniforms.lightMatrix = lightProj * lightView;
+    ```
+</div>
+
+<div className="mdx-col-2">
+    ![Shadow Resolution 1024x1024](/images/vulkan-renderer/shadow-1x.png)
+
+    ![Shadow Resolution 2048x2048](/images/vulkan-renderer/shadow-2x.png)
+</div>
+
+![Shadow Resolution 1024x1024 (PCF)](/images/vulkan-renderer/shadow-pcf.png)
+
+### Multi-Pass Rendering Pipeline
+The complete rendering cycle follows a structured approach: shadow pass generation, scene rendering to HDR texture, bright color extraction, dual-pass bloom processing, and final composition with tone mapping. This architecture provides flexibility for additional post-processing effects while maintaining optimal performance through proper synchronization and resource management.
