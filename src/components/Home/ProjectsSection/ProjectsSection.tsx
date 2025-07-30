@@ -19,7 +19,7 @@ export default function ProjectsSection () {
                 ))}
             </div>
 
-            <Button>All Projects</Button>
+            {/* <Button>All Projects</Button> */}
         </section>
     )
 }

@@ -8,7 +8,8 @@ export default function Navbar() {
 
             <div className={styles.navbarLinks}>
                 <Link href="#projects">Projects</Link>
-                <Link href="#">Résumé</Link>
+                <Link href="#about">About</Link>
+                {/* <Link href="#">Résumé</Link> */}
             </div>
         </nav>
     )

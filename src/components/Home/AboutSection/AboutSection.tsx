@@ -13,7 +13,7 @@ import Button from "@/components/Button/Button";
 
 export default function AboutSection() {
     return (
-        <section className={styles.aboutSection}>
+        <section className={styles.aboutSection} id="about">
             <h2>About Me</h2>
 
             <div className={styles.grid}>
@@ -28,7 +28,7 @@ export default function AboutSection() {
                 <div className={styles.contact}>
                     <div className={styles.contactCard}>
                         <PiEnvelopeSimple />
-                        <Link href={"#"}>rishi.mungia@gmail.com</Link>
+                        <Link href={"mailto:rishi.mungia@gmail.com"}>rishi.mungia@gmail.com</Link>
                     </div>
                     <div className={styles.contactCard} id={styles.resume}>
                         <span>

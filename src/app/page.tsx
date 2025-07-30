@@ -18,7 +18,7 @@ export default function Home() {
                     ))}
                 </p>
 
-                <Button>Schedule a Call</Button>
+                {/* <Button>Schedule a Call</Button> */}
             </section>
 
             <ProjectsSection />

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { GoogleAnalytics } from '@next/third-parties/google';
 
 import "./imports.scss";
 import "./globals.scss";
@@ -26,6 +27,7 @@ export default function RootLayout({
           <Footer />
         </CursorProvider>
       </body>
+      <GoogleAnalytics gaId="G-5N5BM31G8W" />
     </html>
   );
 }
